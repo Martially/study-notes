@@ -59,11 +59,36 @@ segmentMask是散列运算的掩码，等于ssize-1，因为ssize最大长度为65536，所以segmentM
 segment的容量是（int）HashEntry数组的长度*每个segment的负载因子，默认情况下（int）（1*0.75）等于零。
 
 定位segment：
+ConcurrentHashMap是使用分段锁Segment来保护不同段的数据，所以在插入、获取元素的时候必须先通过散列算法定位segment。
+ConcurrentHashMap会对元素的hashCode进行一次再散列（目的是为了减少散列冲突，因为只要低位一样，无论高位是什么数，其散列值总是一样）。
+然后使用segmentFor这个方法来定位segment。
 
+ConcurrentHashMap的3种操作
 
-ConcurrentHashMap定义，初始化容量为16，每个segment的负载因子为0.75f
-CONCURRENCY_LEVEL等于16,1需要向左移4次。
+1.get操作
+先进过一次再散列，然后使用这个散列值通过散列运算定位到Segment，再通过散列算法定位打元素。
+    public V get(Object key) {
+        int hash = hash(key.hashCode());
+        return segmentFor(hash).get(key, hash);
+    }
+在get操作中，不需要加锁，除非读到的值是空才会加锁重读。（HashTable的get方法是要加锁的）
+之所以不需要加锁，因为get方法里讲要使用的共享变量都定义成了volatile类型。
+定位HashEntry和定位Segment的散列算法虽然一样（都是与数组的长度减去1再相与），但是相与的值不一样。
+定位Segment使用的是元素的hashCode通过再散列得到的值的高位，而定位HahEntry是直接使用再散列后的值。这是为了避免2次散列后的值一样。
 
+2.put操作
+put操作必须加锁。首先定位到segment，然后在segment中进行插入操作（先判断是否需要对HashEntry进行扩容，然后定位到添加元素的位置，进行添加）。
+（1）是否需要扩容
+	在插入HashEntry数组前进行判断是否需要扩容。这个方式比HashMap的扩容方式更靠谱。HashMap的扩容方式是先将元素插入，再判断是否需要扩容，
+	这样会导致无效扩容，即扩容后不再往里添加元素。
+（2）如何扩容
+	先创建一个容量是原来两倍的数组，然后将原数组的元素进行再散列后插入到新的数组里。为了高效，扩容针对于某个Segment，而不是整个ConcurrentHashMap。
+
+3.size操作
+	统计整个ConcurrentHashMap里的元素大小，必须统计所有Segment里的元素再求和。Segment里的全局变量count是一个volatile变量。
+	在统计时，ConcurrentHashMap先尝试2次通过不锁住Segment的方法来统计各个segment的大小，如果统计过程中count发生变化，则再采用加锁的方式来统计。
+	ConcurrentHashMap是如何判断在统计的时候容器是否发生了变化：使用modCount变量，在put，remove和clean方法里操作元素前将变量modCount进行加1，
+	在统计size前后通过比较modConut是否变法，就可以得知容器大小是否发生变化。
 
 
 
