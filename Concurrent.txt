@@ -1,0 +1,76 @@
+java.util.Concurrent
+
+对java.util.Map增加了原子性，也就是线程安全。
+
+ConcurrentMap接口继承自Map接口，
+
+ 
+V putIfAbsent(K key, V value);
+ 
+1、调用 map.get(key) 方法，判断 map 里面是否有该 key 对应的 value （Locale 对象）。
+2、如果返回 null，表示 map 里面没有要查找的 key-value mapping。new 一个 Locale 对象，并把 new 出来的这个对象与 key 一起放入 map。
+3、最后返回新创建的 Locale 对象
+
+boolean remove(Object key, Object value);
+删除并发的map中与key值对应的entry建，如果删除成功，返回true，否则返回false
+
+boolean replace(K key, V oldValue, V newValue);
+将并发map中对应key值的value换成newValue，如果替换成功，返回true，否则返回false
+
+
+V replace(K key, V value);
+如果map中有对应的key值的键值对，将新的key-value键值对替换旧的键值对
+
+以上方法都是需要实现同步保证原子性的。
+
+ConcurrentHashMap类
+
+ConcurrentHashMap类继承了抽象类AbstractMap，而抽象类实现了了接口Map。
+而且ConcurrentHashMap还实现了上文提到的ConcurrentMap接口和Serializable接口，Serializable接口是起到标志作用，说明ConcurrentHashMap可以被序列、反序列化
+
+
+serialVersionUID用处：
+Java的序列化机制是通过在运行时判断类的serialVersionUID来验证版本一致性的。
+在进行反序列化时，JVM会把传来的字节流中的serialVersionUID与本地相应实体（类）的serialVersionUID进行比较，
+如果相同就认为是一致的，可以进行反序列化，否则就会出现序列化版本不一致的异常。(InvalidCastException)
+
+介绍下，concurrentHashMap与HashMap的区别：在并发编程中，HashMap容易发生死循环，而concurrentHashMap对并发提供了支持。
+concurrentHashMap与HashTable的区别：HashTable使用synchronized来保证线程安全，但是在竞争激烈的情况下，效率低下。
+而concurrentHashMap使用了锁分段技术，可以有效提升并发访问率。它首先讲数据分成一段一段存储起来，然后给每段数据配一把锁，
+当一个线程占用锁访问其中一段数据的时候，其他段的数据也能被其他线程访问。
+所以concurrentHashMap由Segment数组结构和HashEntry数组结构组成。
+其中Segment是一种可重入锁也就是我们常用的ReentrantLock,HashEntry用于存储键值对数据。也就是说，要对HashEntry操作，必须先获取Segment锁。
+
+对于ConcurrentHashMap的初始化：
+用initialCapacity、loadFactor和concurrencyLevel等几个参数来初始化Segment数组、段偏移量segmentShift、段掩码segmentMask和每个segment里的HashEntry数组。
+
+初始化segments数组：
+segments数组的长度ssize通过concurrencyLevel来计算的。为了能让按位与的散列算法来定位segment数组的索引，必须保证segments数组的长度是2的N次方，
+所以必须先计算出一个大于或等于concurrencyLevel的最小的2的N次方的值来作为segments数组的长度。其中concurrencyLevel的最大值是65535，所以segments数组的最大长度为65536，对应2进制的16位。
+
+初始化segmentShift和segmentMask：
+这两个全局变量都要在定位segment时的散列算法里使用，sshift等于ssize从1向左移的次数。
+segmentShift用于定位参与散列算法的位数，等于32-sshift。（之所以是32，是因为ConcurrentHashMap里的hash（）方法输出的最大数是32位）
+segmentMask是散列运算的掩码，等于ssize-1，因为ssize最大长度为65536，所以segmentMask最大值是65535，segmentShift最小值为16
+
+初始化每个segment：
+输入参数initialCapacity是ConcurrentHashMap的初始化容量，loadfactor是每个segment的负载因子，构造器里用这两个参数初始化每个segment。
+每个segment里的HashEntry数组的长度是ConcurrentHashMap的初始化容量/segments数组的长度，默认值为1。如果这个值大于1会取2的N次方。
+segment的容量是（int）HashEntry数组的长度*每个segment的负载因子，默认情况下（int）（1*0.75）等于零。
+
+定位segment：
+
+
+ConcurrentHashMap定义，初始化容量为16，每个segment的负载因子为0.75f
+CONCURRENCY_LEVEL等于16,1需要向左移4次。
+
+
+
+
+
+
+
+
+
+
+
