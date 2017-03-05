@@ -110,11 +110,22 @@ ConcurrentLinkedQueueÊÇÒ»¸ö»ùÓÚÁ´½Ó½ÚµãµÄÎÞ½çÏß³Ì°²È«¶ÓÁÐ£¬Ëü²ÉÓÃFIFOµÄ¶Ô½Úµã½øÐ
 £¨2£©³ö¶ÓÁÐ
 	µ±head½ÚµãÔªËØÎª¿Õ£¬²Å»á¸üÐÂhead½Úµã¡£ÕâÖÖ·½·¨Ò²ÊÇÍ¨¹ýHOPS±äÁ¿À´¼õÉÙCAS¸üÐÂhead½ÚµãµÄÏûºÄ£¬´Ó¶øÌá¸ß³ö¶ÓµÄÐ§ÂÊ¡£
 
+½ÓÏÂÀ´¸üÐÂµã£º
 ConcurrentLinkedQueueÊÇ·Ç×èÈû¶ÓÁÐ£¬½ÓÏÂÀ´½²½²×èÈû¶ÓÁÐ
 
 
 javaÀïÓÐÆß¸ö×èÈû¶ÓÁÐ¡£×èÈû¶ÓÁÐÓÐ4ÖÖ´¦Àí·½Ê½£¨Å×³öÒì³££¬·µ»ØÌØÊâÖµ£¬Ò»Ö±×èÈû£¬³¬Ê±ÍË³ö£©
 
-×èÈû¶ÓÁÐÊµÏÖÔ­Àí
-Ê¹ÓÃÍ¨ÖªÄ£Ê½ÊµÏÖ¡£
+×èÈû¶ÓÁÐÊµÏÖÔ­Àí--Ê¹ÓÃÍ¨ÖªÄ£Ê½ÊµÏÖ¡£
 
+²¢·¢¹¤¾ß£ºCountDownLatch&CyclicBarrier&Semaphore--Ìá¹©Ò»ÖÖ²¢·¢¿ØÖÆµÄÊÖ¶Î   Exchanger¹¤¾ßÀàÌá¹©ÔÚÏß³Ì¼ä½»»»Êý¾ÝµÄÒ»ÖÖÊÖ¶Î
+
+Fork/Join¿ò¼Ü
+
+java.util.concurrent.atomic
+
+lock
+
+javaÖÐµÄÏß³Ì³Ø
+
+Executor¿ò¼Ü
