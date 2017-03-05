@@ -91,8 +91,24 @@ put²Ù×÷±ØÐë¼ÓËø¡£Ê×ÏÈ¶¨Î»µ½segment£¬È»ºóÔÚsegmentÖÐ½øÐÐ²åÈë²Ù×÷£¨ÏÈÅÐ¶ÏÊÇ·ñÐèÒª¶
 	ÔÚÍ³¼ÆsizeÇ°ºóÍ¨¹ý±È½ÏmodConutÊÇ·ñ±ä·¨£¬¾Í¿ÉÒÔµÃÖªÈÝÆ÷´óÐ¡ÊÇ·ñ·¢Éú±ä»¯¡£
 
 
+ÔÚ²¢·¢±à³ÌÖÐÐèÒªÊ¹ÓÃÏß³Ì°²È«µÄ¶ÓÁÐ¡£
+Á½ÖÖ·½Ê½£º1¡¢Ê¹ÓÃ×èÈûËã·¨£¨Ê¹ÓÃÒ»¸öËø»òÕßÁ½¸öËø£ºConcurrentLinkedDeque£© 2¡¢·Ç×èÈûËã·¨ £¨Ñ­»·CAS£ºConcurrentLinkedQueue£©
 
+ConcurrentLinkedQueueÀà
+ConcurrentLinkedQueueÊÇÒ»¸ö»ùÓÚÁ´½Ó½ÚµãµÄÎÞ½çÏß³Ì°²È«¶ÓÁÐ£¬Ëü²ÉÓÃFIFOµÄ¶Ô½Úµã½øÐÐÅÅÐò£¬µ±Ìí¼Ó½ÚµãÊ±£¬»áÌí¼Óµ½Î²²¿£»
+µ±»ñÈ¡Ò»¸öÔªËØÊ±£¬»áÊä³öÍ·²¿ÔªËØ¡£²ÉÓÃCASËã·¨À´ÊµÏÖ¡£
 
+£¨1£©Èë¶ÓÁÐ
+	1¡¢Èë¶Ó¶ÓÁÐµÄ¹ý³Ì¡£
+		tail½Úµã²»×ÜÊÇÎ²½Úµã¡£
+	2¡¢¶¨Î»Î²½Úµã
+		next = p.getNext£¨£©£»
+		return£¨p==next£©£¿head£ºnext£»
+	3¡¢ÉèÖÃÈë¶Ó½ÚµãÎªÎ²½Úµã	
+	4¡¢HOPS
+		Ä¬ÈÏHOPS=1£¬volatileÐ´²Ù×÷¿ªÏúÔ¶Ô¶´óÓÚvolatile¶Á²Ù×÷¡£
+£¨2£©³ö¶ÓÁÐ
+	µ±head½ÚµãÔªËØÎª¿Õ£¬²Å»á¸üÐÂhead½Úµã¡£ÕâÖÖ·½·¨Ò²ÊÇÍ¨¹ýHOPS±äÁ¿À´¼õÉÙCAS¸üÐÂhead½ÚµãµÄÏûºÄ£¬´Ó¶øÌá¸ß³ö¶ÓµÄÐ§ÂÊ¡£
 
 
 
