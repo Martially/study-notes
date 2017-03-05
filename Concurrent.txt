@@ -92,7 +92,7 @@ put²Ù×÷±ØÐë¼ÓËø¡£Ê×ÏÈ¶¨Î»µ½segment£¬È»ºóÔÚsegmentÖÐ½øÐÐ²åÈë²Ù×÷£¨ÏÈÅÐ¶ÏÊÇ·ñÐèÒª¶
 
 
 ÔÚ²¢·¢±à³ÌÖÐÐèÒªÊ¹ÓÃÏß³Ì°²È«µÄ¶ÓÁÐ¡£
-Á½ÖÖ·½Ê½£º1¡¢Ê¹ÓÃ×èÈûËã·¨£¨Ê¹ÓÃÒ»¸öËø»òÕßÁ½¸öËø£ºConcurrentLinkedDeque£© 2¡¢·Ç×èÈûËã·¨ £¨Ñ­»·CAS£ºConcurrentLinkedQueue£©
+Á½ÖÖ·½Ê½£º1¡¢Ê¹ÓÃ×èÈûËã·¨£¨Ê¹ÓÃÒ»¸öËø»òÕßÁ½¸öËø£ºBlockingQueueºÍBlockingDeque£© 2¡¢·Ç×èÈûËã·¨ £¨Ñ­»·CAS£ºConcurrentLinkedQueue¡¢ConcurrentLinkedDeque£©
 
 ConcurrentLinkedQueueÀà
 ConcurrentLinkedQueueÊÇÒ»¸ö»ùÓÚÁ´½Ó½ÚµãµÄÎÞ½çÏß³Ì°²È«¶ÓÁÐ£¬Ëü²ÉÓÃFIFOµÄ¶Ô½Úµã½øÐÐÅÅÐò£¬µ±Ìí¼Ó½ÚµãÊ±£¬»áÌí¼Óµ½Î²²¿£»
@@ -110,8 +110,11 @@ ConcurrentLinkedQueueÊÇÒ»¸ö»ùÓÚÁ´½Ó½ÚµãµÄÎÞ½çÏß³Ì°²È«¶ÓÁÐ£¬Ëü²ÉÓÃFIFOµÄ¶Ô½Úµã½øÐ
 £¨2£©³ö¶ÓÁÐ
 	µ±head½ÚµãÔªËØÎª¿Õ£¬²Å»á¸üÐÂhead½Úµã¡£ÕâÖÖ·½·¨Ò²ÊÇÍ¨¹ýHOPS±äÁ¿À´¼õÉÙCAS¸üÐÂhead½ÚµãµÄÏûºÄ£¬´Ó¶øÌá¸ß³ö¶ÓµÄÐ§ÂÊ¡£
 
+ConcurrentLinkedQueueÊÇ·Ç×èÈû¶ÓÁÐ£¬½ÓÏÂÀ´½²½²×èÈû¶ÓÁÐ
 
 
+javaÀïÓÐÆß¸ö×èÈû¶ÓÁÐ¡£×èÈû¶ÓÁÐÓÐ4ÖÖ´¦Àí·½Ê½£¨Å×³öÒì³££¬·µ»ØÌØÊâÖµ£¬Ò»Ö±×èÈû£¬³¬Ê±ÍË³ö£©
 
-
+×èÈû¶ÓÁÐÊµÏÖÔ­Àí
+Ê¹ÓÃÍ¨ÖªÄ£Ê½ÊµÏÖ¡£
 
