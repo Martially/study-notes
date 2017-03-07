@@ -1,0 +1,64 @@
+Maven Ant Gradle---帮助开发者无需从各个地方下载Jar包，避开Jar包冲突，下载冗余的问题
+
+pom.xml：（从struts-core的jar包中的maven中找到）
+①.<modelVersion>：maven版本。
+②.<groupId>：项目的包名。
+③.<artifactId>：模块名。
+④.<version>：0.0.1SNAPSHOT快照版本
+
+maven目录结构
+src
+   -main
+        -java
+             -package
+   -test
+   -resources
+        -java
+             -package
+
+			 
+mvn -v 查看maven版本
+    compile 编译
+    test 测试
+    package 打包
+    clean 删除target
+	install 安装jar包到本地
+	
+	archetype插件：用于创建符合maven规定的目录骨架<br>
+		1、archetype:generate   按照提示进行选择<br>
+		2、archetype:generate -DgroupId=组织名（如公司网址的反写+项目名）
+			-DartifactId=项目名-模块名<br>
+			-Dversion=版本号
+			-Dpackage=代码所存在的包名
+	
+1、坐标（由groupId、artifactId、version组成）。
+2、构件通过坐标作为其唯一标识。
+3、仓库：
+-本地仓库。
+-远程仓库：maven-model-builder-3.3.3.jar\org\apache\maven\model,超级pom.xml文件，全球中央仓库地址：https://repo.maven.apache.org/maven2
+-镜像仓库：/conf/setting文件:
+<mirror>
+<id>maven.net.cn</id>
+<mirrorOf>central</mirrorOf>
+<name>central mirror in china</name>
+<url>http://maven.net.cn/content/groups/public</url>
+</mirror>
+4、修改本地仓库的位置：<localRepository>C:/软件/eclipse/repo</localRepository>
+
+Ps：一旦配置了镜像仓库，那么先前的所有配置都会转到镜像仓库中。
+依赖：
+	如果A和B依赖了一个不同版本的相同的构件C。
+	①：短路优先：
+	会优先解析路径短的版本。
+	A -> B -> C -> X(jar)
+	A -> D -> X(jar) 优先解析短的
+	②：先声明先优先：
+	如果路径长度相同，则谁先声明，先解析谁。
+聚合和聚成：
+	聚合：packaging 属性改成pom
+	加<modules>
+	<module>../hongxing.nange</module>
+	<module>../hongxing.bge</module>
+	</modules>
+	聚合：packaging 属性改成pom
+		<dependencyManagement></dependencyManagement>

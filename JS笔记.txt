@@ -1,0 +1,310 @@
+JS笔记
+<script type="text/javascript">    //文本类型(text),javascript是为了告诉浏览器里面的文本是属于JavaScript语言
+js代码
+</script>
+我们可以把HTML文件和JS代码分开,并单独创建一个JavaScript文件(简称JS文件),其文件后缀通常为.js，然后将JS代码直接写在JS文件中。
+注意:在JS文件中，不需要<script>标签,直接编写JavaScript代码就可以了。
+我们需在HTML中添加如下代码，就可将JS文件嵌入HTML文件中。
+<script src="script.js"></script>
+
+单行注释，在注释内容前加符号 “//”。
+多行注释以"/*"开始，以"*/"结束。
+
+互动方法
+	----JavaScript-确认（confirm 消息对话框）
+		语法:
+			confirm(str);
+		参数说明:
+			str：在消息对话框中要显示的文本
+			返回值: Boolean值
+		返回值:
+			当用户点击"确定"按钮时，返回true
+			当用户点击"取消"按钮时，返回false
+	----JavaScript-提问
+		语法:
+			prompt(str1, str2);
+		参数说明：
+			str1: 要显示在消息对话框中的文本，不可修改
+			str2：文本框中的内容，可以修改
+		返回值:
+			1. 点击确定按钮，文本框中的内容将作为函数返回值
+			2. 点击取消按钮，将返回null
+	----JavaScript-打开新窗口
+		语法：
+			window.open([URL], [窗口名称], [参数字符串])
+			窗口名称：可选参数，被打开窗口的名称。
+				1.该名称由字母、数字和下划线字符组成。
+				2."_top"、"_blank"、"_self"具有特殊意义的名称。
+				   _blank：在新窗口显示目标网页
+				   _self：在当前窗口显示目标网页
+				   _top：框架网页中在上部窗口中显示目标网页
+				3.相同 name 的窗口只能创建一个，要想创建多个窗口则 name 不能相同。
+			   4.name 不能包含有空格。
+DOM操作
+	文档对象模型DOM（Document Object Model）定义访问和处理HTML文档的标准方法。
+	DOM 将HTML文档呈现为带有元素、属性和文本的树结构（节点树）。
+	----通过ID获取元素
+		语法:
+			document.getElementById(“id”) 
+	----innerHTML 属性
+		innerHTML 属性用于获取或替换 HTML 元素的内容。
+		语法:
+			Object.innerHTML
+		通过document.getElementById(“id”),获取元素对象，然后元素对象.innerHTML="修改的内容";
+	----改变 HTML 样式
+		语法:
+			Object.style.property=new style;
+			注意:Object是获取的元素对象，如通过document.getElementById("id")获取的元素。
+		如：
+			<p id="pcon">Hello World!</p>
+			<script>
+			   var mychar = document.getElementById("pcon");
+			   mychar.style.color="red";
+			   mychar.style.fontSize="20";
+			   mychar.style.backgroundColor ="blue";
+			</script>
+	----显示和隐藏（display属性）
+		语法：
+			Object.style.display = value
+		value取值：none（隐藏），block（显示为块级元素）
+		如：mychar.style.display="none";
+	----控制类名（className 属性）
+		语法：
+			object.className = classname
+		累积：obj.removeAttribute("property");移除对象的属性值
+--------------------------------------进阶--------------------------------------------
+数组
+	----一维数组
+		var myarr=new Array(); //定义数组
+		还可以为数组指定长度，长度可任意指定。
+		var myarray= new Array(8); //创建数组，存储8个数据。 
+		注意：
+		1.创建的新数组是空数组，没有值，如输出，则显示undefined。
+		2.虽然创建数组时，指定了长度，但实际上数组都是变长的，也就是说即使指定了长度为8，仍然可以将元素存储在规定长度以外。
+		
+		我们还可以用简单的方法创建上面的数组和赋值：
+		第一种方法：
+			var myarray = new Array(66,80,90,77,59);//创建数组同时赋值
+		
+		第二种方法：
+			var myarray = [66,80,90,77,59];//直接输入一个数组（称 “字面量数组”）
+			注意：数组存储的数据可以是任何类型（数字、字符、布尔值等）
+			
+		JavaScript数组的length属性是可变的，这一点需要特别注意。
+		arr.length=10; //增大数组的长度
+	----二维数组
+		二维数组的表示: myarray[ ][ ]
+		注意: 二维数组的两个维度的索引值也是从0开始，两个维度的最后一个索引值为长度-1
+事件
+	----鼠标经过事件（onmouseover）
+		当鼠标移到一个对象上时，该对象就触发onmouseover事件，并执行onmouseover事件调用的程序。
+	----鼠标移开事件（onmouseout）
+		积累：如果对父元素使用了事件，下面的子元素都会再调用一次该事件
+	----光标聚焦事件（onfocus）
+		当网页中的对象获得聚点时，执行onfocus调用的程序就会被执行。
+	----失焦事件（onblur）
+		当光标离开当前获得聚焦对象的时候，触发onblur事件，同时执行被调用的程序。
+	----内容选中事件（onselect）
+		选中事件，当文本框或者文本域中的文字被选中时，触发onselect事件，同时调用的程序就会被执行。
+	----文本框内容改变事件（onchange）
+		通过改变文本框的内容来触发onchange事件，同时执行被调用的程序。
+	----加载事件（onload）
+		事件会在页面加载完成后，立即发生，同时执行被调用的程序。
+		注意：1. 加载页面时，触发onload事件，事件写在<body>标签内。
+			  2. 此节的加载页面，可理解为打开一个新页面时。
+	----卸载事件（onunload）
+		当用户退出页面时（页面关闭、页面刷新等），触发onUnload事件，同时执行被调用的程序。
+		window.onunload = onunload_message;   
+		 function onunload_message(){   
+			alert("您确定离开该网页吗？");   
+		}   
+	积累： 获取两个输入框中的值和获取选择框的值。document.getElementById( id名 ).value 获取或设置 id名的值。
+			使用parseInt()函数可解析一个字符串,并返回一个整数。
+			如：var oTxt1 = document.getElementById("txt1").value;
+				var oTxt2 = document.getElementById("txt2").value;
+				result = parseFloat(oTxt1) + parseFloat(oTxt2);
+对象
+	----Date 日期对象
+		定义一个时间对象 :
+			var Udate=new Date();
+		如果要自定义初始值，可以用以下方法：
+			var d = new Date(2012, 10, 1);  //2012年10月1日
+			var d = new Date('Oct 1, 2012'); //2012年10月1日
+	----String对象
+		----get/setFullYear() 返回/设置年份，用四位数表示
+		----getDay() 返回星期，返回的是0-6的数字，0 表示星期天。如果要返回相对应“星期”，通过数组完成
+		----get/setTime() 返回/设置时间，单位毫秒数，计算从 1970 年 1 月 1 日零时到日期对象所指的日期的毫秒数。
+		----charAt() 方法可返回指定位置的字符。返回的字符是长度为 1 的字符串。	
+		----indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置。
+		----split() 方法将字符串分割为字符串数组，并返回此数组。
+			语法：
+				stringObject.split(separator,limit)
+				注意：如果把空字符串 ("") 用作 separator，那么 stringObject 中的每个字符之间都会被分割。
+		----substring() 方法用于提取字符串中介于两个指定下标之间的字符。
+			语法：stringObject.substring(startPos,stopPos) 
+			注意：
+				1. 返回的内容是从 start开始(包含start位置的字符)到 stop-1 处的所有字符，其长度为 stop 减start。
+				2. 如果参数 start 与 stop 相等，那么该方法返回的就是一个空串（即长度为 0 的字符串）。
+				3. 如果 start 比 stop 大，那么该方法在提取子串之前会先交换这两个参数。
+		----substr() 方法从字符串中提取从 startPos位置开始的指定数目的字符串。
+			语法：stringObject.substr(startPos,length)
+			如果startPos为负数且绝对值大于字符串长度，startPos为0。
+	----Math对象
+		----ceil() 方法可对一个数进行向上取整。语法:Math.ceil(x)
+		----floor() 方法可对一个数进行向下取整。
+		----round() 方法可把一个数字四舍五入为最接近的整数。
+		----random() 方法可返回介于 0 ~ 1（大于或等于 0 但小于 1 )之间的一个随机数。
+	----Array 数组对象
+		----concat() 方法用于连接两个或多个数组。此方法返回一个新数组，不改变原来的数组。
+			语法
+			arrayObject.concat(array1,array2,...,arrayN)
+		----join()方法用于把数组中的所有元素放入一个字符串。元素是通过指定的分隔符进行分隔的。
+			语法：
+			arrayObject.join(分隔符)
+		----reverse() 方法用于颠倒数组中元素的顺序。
+			语法：
+			arrayObject.reverse()
+		----slice() 方法可从已有的数组中返回选定的元素。
+			语法
+			arrayObject.slice(start,end)
+			注意：
+			1. 可使用负值从数组的尾部选取元素。
+			2.如果 end 未被规定，那么 slice() 方法会选取从 start 到数组结尾的所有元素。
+			3. String.slice() 与 Array.slice() 相似。
+		----sort()方法使数组中的元素按照一定的顺序排列。
+	----window对象
+		----JavaScript 计时器
+			计时器类型：
+				setTimeout()一次性计时器：仅在指定的延迟时间之后触发一次。
+				setInterval()间隔性触发计时器：每隔一定的时间间隔就触发一次
+				
+			----setInterval()在执行时,从载入页面后每隔指定的时间执行代码。
+				语法:
+				setInterval(代码,交互时间);2. 交互时间：周期性执行或调用表达式之间的时间间隔，以毫秒计（1s=1000ms）
+				返回值:
+				一个可以传递给 clearInterval() 从而取消对"代码"的周期性执行的值。
+				调用函数格式(假设有一个clock()函数):
+				setInterval("clock()",1000)或setInterval(clock,1000)
+			累积:获取时间，格式"时:分:秒"	 var time=new Date();          
+											attime= time.getHours()+":"+time.getMinutes()+":"+time.getSeconds(); 
+			----取消计时器clearInterval()
+			
+			----setTimeout()计时器
+				语法：setTimeout(代码,延迟时间);
+			----setTimeout()和clearTimeout()一起使用，停止计时器。
+	----History 对象
+		语法：window.history.[属性|方法]
+		----back()方法，加载 history 列表中的前一个 URL。 window.history.back();==window.history.go(-1);
+		----forward()方法，加载 history 列表中的下一个 URL。window.history.forward();==window.history.go(1);
+		----go()方法，根据当前所处的页面，加载 history 列表中的某个具体的页面。
+	----Location对象
+		location用于获取或设置窗体的URL，并且可以用于解析URL。
+		语法：location.[属性|方法]
+	----Navigator对象
+		Navigator 对象包含有关浏览器的信息，通常用于检测浏览器与操作系统的版本。
+			appCodeName:浏览器代码名的字符串显示
+			appName:返回浏览器的名称
+			appVersion:返回浏览器的平台和版本信息
+			platform:返回运行浏览器的操作系统平台
+			userAgent:返回由客户机发送服务器的user-agent头部的值。
+	----screen对象
+		语法：window.screen.属性
+			1. screen.height 返回屏幕分辨率的高
+			2. screen.width 返回屏幕分辨率的宽
+			注意:
+				1.单位以像素计。
+				2. window.screen 对象在编写时可以不使用 window 这个前缀
+				3. screen.availWidth 属性返回访问者屏幕的宽度，以像素计，减去界面特性，比如任务栏。
+				4. screen.availHeight 属性返回访问者屏幕的高度，以像素计，减去界面特性，比如任务栏。
+				注意:
+				不同系统的任务栏默认高度不一样，及任务栏的位置可在屏幕上下左右任何位置，所以有可能可用宽度和高度不一样。
+认识DOM
+	----getElementsByName()方法。返回带有指定名称的节点对象的集合
+		注意:
+		1. 因为文档中的 name 属性可能不唯一，所有 getElementsByName() 方法返回的是元素的数组，而不是一个元素。
+		2. 和数组类似也有length属性，可以和访问数组一样的方法来访问，从0开始。
+	----getElementsByTagName()方法。返回带有指定名称的节点对象的集合	
+		区别getElementByID,getElementsByName,getElementsByTagName
+	----getAttribute()方法.通过元素节点的属性名称获取属性的值。
+		 语法：elementNode.getAttribute(name)
+		 说明:
+			1. elementNode：使用getElementById()、getElementsByTagName()等方法，获取到的元素节点。
+			2. name：要想查询的元素节点的属性名字
+	----setAttribute()方法。增加一个指定名称和值的新属性，或者把一个现有的属性设定为指定的值。
+		语法：elementNode.setAttribute(name,value)
+		
+	----节点属性
+		DOM 节点有三个重要的属性 ：
+			1. nodeName : 节点的名称
+			2. nodeValue ：节点的值
+			3. nodeType ：节点的类型
+				一、nodeName 属性: 节点的名称，是只读的。
+				1. 元素节点的 nodeName 与标签名相同
+				2. 属性节点的 nodeName 是属性的名称
+				3. 文本节点的 nodeName 永远是 #text
+				4. 文档节点的 nodeName 永远是 #document
+
+				二、nodeValue 属性：节点的值
+				1. 元素节点的 nodeValue 是 undefined 或 null
+				2. 文本节点的 nodeValue 是文本自身
+				3. 属性节点的 nodeValue 是属性的值
+
+				三、nodeType 属性: 节点的类型，是只读的。以下常用的几种结点类型:
+				元素类型    节点类型
+				  元素          1
+				  属性          2
+				  文本          3
+				  注释          8
+				  文档          9
+		----访问子结点childNodes
+			访问选定元素节点下的所有子节点的列表，返回的值可以看作是一个数组，他具有length属性。
+			语法：elementNode.childNodes
+		----访问子结点的第一和最后项
+			语法：node.firstChild     属性返回‘childNodes’数组的第一个子节点。如果选定的节点没有子节点，则该属性返回 NULL。
+				  node.lastChild	   属性返回‘childNodes’数组的最后一个子节点。如果选定的节点没有子节点，则该属性返回 NULL。
+		----访问父节点parentNode
+			语法：elementNode.parentNode。----
+			注意:父节点只能有一个
+			----访问祖节点:elementNode.parentNode.parentNode
+		累积：xx.innerHTML;<----获取元素里的内容
+		----访问兄弟节点
+			1. nextSibling 属性可返回某个节点之后紧跟的节点（处于同一树层级中）。
+			2. previousSibling 属性可返回某个节点之前紧跟的节点（处于同一树层级中）。
+		----插入节点appendChild()
+			在指定节点的最后一个子节点列表之后添加一个新的子节点。
+			语法：appendChild(newnode)
+		积累：var newnode=document.createElement("p")，newnode.innerHTML="this is p"；节点.appendChild(newnode);
+		----插入节点insertBefore()
+			insertBefore() 方法可在已有的子节点前插入一个新的子节点。
+			语法：insertBefore(newnode,node);
+		----删除节点removeChild()
+			语法：nodeObject.removeChild(node)
+		----替换元素节点replaceChild()
+			语法：node.replaceChild (newnode,oldnew ) 
+		----创建元素节点createElement
+			createElement()方法可创建元素节点。此方法可返回一个 Element 对象。
+			语法：document.createElement(tagName)
+		----创建文本节点createTextNode
+			createTextNode() 方法创建新的文本节点，返回新创建的 Text 节点。
+			语法：
+			document.createTextNode(data)
+		----浏览器窗口可视区域大小
+			window.innerHeight - 浏览器窗口的内部高度	
+			window.innerWidth - 浏览器窗口的内部宽度
+			在不同浏览器都实用的 JavaScript 方案：
+			var w= document.documentElement.clientWidth|| document.body.clientWidth;
+			var h= document.documentElement.clientHeight|| document.body.clientHeight;
+		----网页尺寸scrollHeight
+			scrollHeight和scrollWidth，获取网页内容高度和宽度。
+			var w=document.documentElement.scrollWidth|| document.body.scrollWidth;
+			var h=document.documentElement.scrollHeight|| document.body.scrollHeight;
+		----网页尺寸offsetHeight
+			offsetHeight和offsetWidth，获取网页内容高度和宽度(包括滚动条等边线，会随窗口的显示大小改变)。
+			一、值
+			offsetHeight = clientHeight + 滚动条 + 边框。
+
+			二、浏览器兼容性
+			var w= document.documentElement.offsetWidth
+				|| document.body.offsetWidth;
+			var h= document.documentElement.offsetHeight
+				|| document.body.offsetHeight;

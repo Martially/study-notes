@@ -1,0 +1,27 @@
+Spring
+
+------------------Spring作用----------------------
+容器
+提供了对多种技术的支持
+-JMS,MQ支持，UnitTest。。。
+AOP（事务管理、日志等）
+提供了众多方便应用
+
+适用范围：
+	构建企业应用（SpringMVC+Spring+Hibernate/ibatis）
+	单独使用Bean容器
+	单独使用AOP进行切面处理
+	其他的Spring功能
+	在互联网中的应用
+
+框架：使用别人搭好的舞台，你来表演
+
+IOC——控制反转
+		控制反转：控制权的转移，应用程序本身不负责依赖对象的创建与维护，而是由外部容器负责创建和维护。
+	依赖注入（DI）：是一种实现方式，由IOC容器在运行期间，动态的将某种依赖关系注入到对象之中
+	目的：创建对象并且组装对象之间的关系
+	
+在IOC容器中将所有的控制对象称作bean，Spring对于bean的使用有两种方式：基于spring-ioc.xml的配置和注解。
+------><bean id="oneInterface（自定义）" class="配置的实现类"></bean>
+------>OneInterface interface=super.getBean("oneInterface");//获取bean，不需要new对象
+			interface.hello(参数);//调用函数

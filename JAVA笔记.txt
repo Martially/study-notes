@@ -1,0 +1,537 @@
+﻿笔记：
+背景
+	java（sun1995）-(2009ORACLE)
+	基础核心：JavaSE：  面向对象，API，JVM。。。
+			->：JAVAEE：JSP,EJB,服务
+			-》JavaME（不用）用安卓
+			
+			
+	JVM:JAVA虚拟机（核心）
+		源文件.java->(编译器)字节码文件.class->(解释器)
+		
+	JDK：java开发工具包，没这个无法开发java
+	JRE：java运行环境，
+		JDK（JRE(JVM)）
+	
+变量和常量
+	变量：房间名
+	变量类型：房间类型
+	变量值：入住的客人
+	String ""  char '' float xxxf boolean true/false
+	强制转换 （int）123123
+	常量：final EI = 14；变量名大写，用final修饰、
+	生成API帮助文档：javadoc -d doc 名称.java
+
+运算符
+	无
+
+流程控制语句
+	if else switch（switch 后面小括号中表达式的值必须是整型或字符型
+					case 后面的值可以是常量数值，如 1、2；也可以是一个常量表达式，如 2+2 ；
+					但不能是变量或带有变量的表达式，如 a * 2）
+	for do while
+	
+数组
+	声明：数据类型[ ] 数组名 或者   数据类型 数组名[ ]
+	分配空间：数组名 = new  数据类型 [ 数组长度 ]
+	也可以 数据类型[] 数组名 = {值}   等价于  数据类型[] 数组名= new 数据类型[不能填长度，为空]{值}
+	循环操作：foreach 也可以for
+	Arrays 类： import java.util.Arrays;
+				排序：Arrays.sort(数组名);
+				将数组转换为字符串:Arrays.toString(数组名)
+
+方法 
+	方法重载：在同一个类中，方法名相同，方法参数的个数、顺序或类型不同，与方法的修饰符或返回值没有关系。如果方法名称相同但是类型不相同，报错
+	Math.random() 
+	
+---------------------------------------分割线---------------------------------------------
+对象
+	类：类是模子（确定对象将会拥有的特征（属性）和行为（方法））。是对象的类型，具有相同属性和方法的一组对象的集合。
+	class 类名{}
+	创造对象：类名 对象名 = new 类名（其实是构造方法）（）
+	局部变量：Java会给成员变量一个初始值，但是不会给局部变量赋予初始值，这就意味着局部变量声明时必须赋一个初始值；局部变量有优先级，就近原则。
+	
+	构造方法：名称与类相同，没有返回值 
+				无参：public 方法名(){}<---注意public后面没有void。 有参：有参的不仅可以创建，还可以赋初值。
+				PS：当有指定构造方法，无论是有参、无参的构造方法，都不会自动添加无参的构造方法
+	静态变量：被 static 修饰的成员称为静态成员或类成员，推荐用类名访问。static 可以修饰变量、方法和代码块
+	静态方法：使用 static 修饰方法，称为静态方法或类方法
+			PS：1、 静态方法中可以直接调用同类中的静态成员，但不能直接调用非静态成员。如果希望在静态方法中调用非静态变量，可以通过创建类的对象，然后通过对象来访问非静态变量。
+				2、 在普通成员方法中，则可以直接访问同类的非静态变量和静态变量
+				3、 静态方法中不能直接调用非静态方法，需要通过对象来访问非静态方法
+	静态初始化块：静态初始化块只在类加载时执行，且只会执行一次，同时静态初始化块只能给静态变量赋值，不能初始化普通的成员变量。
+				  程序运行时静态初始化块最先被执行，然后执行普通初始化块，最后才执行构造方法。
+-------------对象的三大特性：封装，继承，多态--------------------------------
+封装：	1：修改属性的可见性；用private修饰符
+		2；创建getter和setter方法用于属性的读写
+		3；在getter和setter方法中加入属性控制语句，对属性值的合法性进行判断
+		
+	this关键字：代表!!当前对象!!!封装对象属性的时候,经常会使用this关键字
+	内部类：1. 内部类提供了更好的封装，可以把内部类隐藏在外部类之内，不允许同一个包中的其他类访问该类
+			2. 内部类的方法可以直接访问外部类的所有数据，包括私有的数据
+			3. 内部类所实现的功能使用外部类同样可以实现，只是有时使用内部类更方便
+		成员内部类:申明：内部类 对象名 = 外部类对象.new 内部类( );
+					1、 外部类是不能直接使用内部类的成员和方法滴，可先创建内部类的对象，然后通过内部类的对象来访问其成员变量和方法。
+					2、 如果外部类和内部类具有相同的成员变量或方法，内部类默认访问自己的成员变量或方法，如果要访问外部类的成员变量，可以使用 this 关键字。
+		静态内部类：1、 静态内部类不能直接访问外部类的非静态成员，但可以通过 new 外部类().成员 的方式访问 
+					2、 如果外部类的静态成员与内部类的成员名称相同，可通过“类名.静态成员”访问外部类的静态成员；如果外部类的静态成员与内部类的成员名称不相同，则可通过“成员名”直接调用外部类的静态成员
+					3、 创建静态内部类的对象时，不需要外部类的对象，可以直接创建 内部类 对象名= new 内部类();
+		方法内部类：方法内部类只在该方法的内部可见，即只在该方法内可以使用。由于方法内部类不能在外部类的方法以外的地方使用，因此方法内部类不能使用访问控制符和 static 修饰符
+
+继承：java中是单继承的，子类只能有一个父类：extends。父类不能用private修饰
+	方法的重写：子类重写父类的方法（返回值类型、方法名、参数类型及个数与父类相同）
+	初始化顺序：继承初始化顺序：1，先父类，再子类；2，先属性初始化，再构造方法初始化；
+	final可修饰类，方法，属性和变量
+			1.final修饰属性时，若已经显式初始化，不能再其他地方再赋值（包括构造方法）。
+			2.修饰类时，类不能被继承。
+			3.修饰方法，方法不能被覆盖（重写）。
+			4.修饰变量，变量变为常量
+	super：在对象的内部，可以代表父类对象
+			1 子类的构造的过程当中必须调用其父类的构造方法
+			2 如果子类的构造方法中没有显示调用父类的构造方法，则系统默认调用父类的无参的构造方法
+			3 如果显示的调用构造方法，必须在子类的构造方法的第一行
+			4 如果子类构造方法中既没有显示调用父类的构造方法，而父类又没有无参构造方法。则出错
+	Object类：
+			1、toString()方法：在Object类里面定义toString()方法的是返回的对象的哈希code码（对象地址字符串）  。System.out.println(实例化对象名)会执行toString()方法。
+								可以eclipse自带的source中tostring功能，将一个类中的属性自带生成输出函数。
+			2、equals()方法:比较对象的引用是否指向同一块内存地址。（和==类似： ==  比较引用的地址值是否相，也是内存地址）
+							想比较值是否相同，用eclipse自带的生成。
+							重写的方法中：this == obj 比较引用的地址是否相同
+										  getClass() ==obj.getClaas()比较类型是否相同，然后转换为相同的类型，比较属性值
+多态：1、引用多态：父类的引用可以指向本类，或者子类。（子类不能指向父类）如： 父类名 对象名 = new 父类名/子类名(); PS：继承是多态的基础  
+	  2、方法多态：指向看类型，实现的功能看new出来的对象（指向本类，调用本类，指向子类，调用重写或者继承的）。不能通过父类的引用调用子类独有的方法
+	 
+	 引用类型转换：instanceof 进行程序类型的转换解决引用对象类型，避免出现转换安全性问题：
+					用法：对象名 instanceof 类名,返回的是布尔值：true/false
+	抽象类（abstract）：约束子类必须有哪些方法，但是不关注子类的实现。1、只有声明，不去实现这个方法。2、有抽象方法的类就是抽象类。3、抽象类中可以不止是抽象方法，也可以有普通方法。4、抽象类不能直接创建，可以定义引用变量
+	接口（interface）：接口中的方法必须是抽象方法，创建对象时，接口名 对象名=new 已经实现了接口的类()。[修饰符]abstract interface 接口名[extends 父接口1，父接口2...]{}
+						接口中的属性是常量，方法是抽象，系统会自动添加。
+						实现接口用implements。[修饰符]class 类名 extends 父类 implements 接口1，接口2{}
+		匿名内部类：接口名 对象名 = new 接口名(){实现里面的方法}；或者new 接口名(){实现里面的方法}.方法名();PS：别忘记分号
+	UML：1、概念：Unified Modeling Language(UML)统一建模语言或标准建模语言
+		 2、三种常用的UML图：
+			用例图（The Use Case Diagram）：关注功能，描述系统中出现的角色，以及它所需要的功能。
+			序列图（The Sequence Diagram）：关注顺序，描述用户和系统中对象的交互环节：步骤和顺序
+			类图（The Class Diagram）：关注关系：描述类和类之间的关系（继承等），表现类的属性和方法
+		 3.UML建模工具：如Visio、Rational Rose、PowerDesiner
+--------------------------------分割线---------------------------------------------
+异常
+	Throwable是异常类的父类，两大异常类Error和Exception类都是其子类。
+	Error主要是指一些系统错误；Exception分为非检查异常(RuntimeException)和检查异常(文件、数据库异常等)
+	try-catch-finally，可以用多重catch块（要先子类后父类的顺序）
+	
+字符串
+	String
+		String 字符串名 ="xxxx";   String 字符串名 = new String("xxxx");
+		1、 通过 String s1="爱慕课"; 声明了一个字符串对象， s1 存放了到字符串对象的引用，在内存中的存放引用关系
+              s1="欢迎来到："+s1; 改变了字符串 s1 ，其实质是创建了新的字符串对象，变量 s1 指向了新创建的字符串对象
+		2、 一旦一个字符串在内存中创建，则这个字符串将不可改变。如果需要一个可以改变的字符串，我们可以使用StringBuffer或者StringBuilder（后面章节中会讲到）
+		3、每次 new 一个字符串就是产生一个新的对象，即便两个字符串的内容相同，使用 ”==” 比较时也为 ”false” ,如果只需比较内容是否相同，应使用 ”equals()” 方法
+	StringBuilder 类或 StringBuffer 类存储字符串
+		至于 StringBuilder 和StringBuffer ，它们基本相似，不同之处，StringBuffer 是线程安全的，而 StringBuilder 则没有实现线程安全功能，所以性能略高。因此一般情况下，如果需要创建一个内容可变的字符串对象，应优先考虑使用 StringBuilder 类
+		创建：StringBuilder str1 = new StringBuilder("");
+		append()添加，insert(位置，参数)，toString()转换为String。length().PS:这些操作修改了 str 对象的值，而没有创建新的对象，这就是 StringBuilder 和 String 最大的区别。
+常用类
+	 Integer 包装类：Integer score2=new Integer(score1); 
+		 转换类型：score2.doubleValue()... 转换为字符串：score2.toString();
+		 字符串转int：parseInt(String s)；字符串转换为Integer类型：valueOf(String s)
+		 装箱：把基本类型转换成包装类，使其具有对象的性质，又可分为手动装箱和自动装箱
+	 Date 和 SimpleDateFormat 类表示时间
+		 SimpleDateFormat 来对日期时间进行格式化，如可以将日期转换为指定格式的文本，也可将文本转换为日期。
+		 1. 使用 format() 方法将日期转换为指定格式的文本
+			 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+			 String today = sdf.format(new Date());
+		 2. 使用 parse() 方法将文本转换为日期
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss")
+			Date day = sdf.parse("2016年12月12日 12:12:12");
+			PS:1、 调用 SimpleDateFormat 对象的 parse() 方法时可能会出现转换异常，即 ParseException ，因此需要进行异常处理
+				2、 使用 Date 类时需要导入 java.util 包，使用 SimpleDateFormat 时需要导入 java.text 包
+	Calendar 类的应用
+		java.util.Calendar 类是一个抽象类，可以通过调用 getInstance() 静态方法获取一个 Calendar 对象，
+		此对象已由当前日期时间初始化，即默认代表当前时间，如 Calendar c = Calendar.getInstance();
+		然后通过调用 get() 方法获取日期时间信息，参数为需要获得的字段的值，如 Calendar.Year 等为 Calendar 类中定义的静态常量
+		getTime() 方法，用来获取 Date 对象，完成 Calendar 和 Date 的转换，
+		getTimeInMillis() 方法，获取此 Calendar 的时间值，以毫秒为单位。
+	 Math 类
+		Math 类的所有方法都是静态方法，所以使用该类中的方法时，可以直接使用类名.方法名，如： Math.round();
+--------------------------------分割线---------------------------------------------
+集合概念 ----Java集合框架：Collection接口,Collections工具类，Map接口，Comparator接口，Comparable接口
+	集合长度不限，数组长度固定&下标
+	集合框架：Collection+Map两个接口
+	Collection=排列有序：List-序列,Queue-队列；排列无序：Set-集
+	List->ArrayList(数组序列)，List&Queue->LinkedList(链表)，Set->HashSet,Map->HashMap
+	区别：Collection中存储的是一个个独立的对象，Map内部映射关系<Key,Value>Entry键值对
+	List接口及其实现类---ArrayList
+		数组转换成List：Arrays.asList(数组名)。List添加：add(index,值),addAll(index,Arrays.asList(数组名))List查询：.get();
+		List的长度用.size，循环便利：1、for，2、.Iterator(),next() 3、foreac(Object obj :List名称)
+		List修改对象：set(index,值)
+		List删除，remove 和removeAll
+	泛型
+		集合中的元素，可以是任意类型的对象（对象的引用），如果把某个对象放入集合，则会忽略他的类型，而把他当做Object处理
+		泛型则是规定了某个集合只可以存放特定类型的对象，会在编译期间进行类型检查，可以直接按指定类型获取集合元素（不需要转换）
+		List：
+			使用：List<规则> name = new ArrayList<规则>，PS 1.泛型集合可以添加泛型规定的类型及其子类型的对象实例
+														2.泛型集合中的限定类型不能使用基本数据类型
+														3.可以通过包装类限定允许存入的基本数据类型，例如Integer,Long,Boolean等
+		Set：Set接口及其实现类--HashSet，Set是元素无序并且不可以重复的集合，被称为集，HashSet--哈希集，是Set的一个重要实现类
+			 1、set循环遍历只能使用Iterator和foreach，不能用list的get（），因为set无序。2、set中不能有重复的对象，若出现，只保留第一次添加的。
+	Map：
+		Key值和value值都可以为null，但是一个HashMap只能有一个Key值为null的映射（key值不可重复）。
+		Map支持泛型:Map<K,V>
+		Map的添加:.put(k,v),读取.get(k).
+		Map的遍历，.keyset(),返回所有键的Set集合，.size()获取数量
+				   .entryset()返回所有键值对,Entry entry = students.entrySet()；entry.getkey(),entry.getvalue();
+		Map的删除：.remove(key).
+		Map的修改: .put(key,value)
+	判断List&Set是否包含某个对象(新创建的不包含，要重写equals方法)，.contains();
+	寻找对象的位置。indexof(对象)。
+	Map中用containsKey()判断是否有某个key，用containsValue来判断value。当然value要重写equals方法
+	用Collections.sort()对list排序。   随机数：Random random = new Random()，k = random.nextInt(100)
+	sort只能对能实现Comparable（默认排序规则）接口的元素进行排序。
+	Comparable接口--可比较的
+			实现该接口表示：这个类的实例可以比较大小，可进行自然排序
+			定义了默认的比较规则
+			其实现类需要实现compareTo()方法，返回正数表示大
+	Comparator接口--比较工具接口
+			用于定义临时比较规则，而不是默认
+			其实现类需要实现compare()方法。
+			使用：先创建一个类，继承Comparator。然后修改返回值。之后可以用Arrays&Collections.sort(List,new StudentComparator());
+
+-------------------------------------------反射------------------------------------------
+Class类
+	1）在面向对象的世界里，万事万物皆对象。
+	   类是对象，类是java.lang.Class类的实例对象。
+	   There is a class named Class
+	2）Foo的实例对象如何表示
+		 Foo foo1=new Foo();//foo1就表示出来了
+		 Foo这个类也是一个实例对象，Class类的实例对象，如何表示呢？
+	     任何一个类都是Class的实例对象，这个实例对象有三种表示方式
+	     第一种表示方式--->实际在告诉我们任何一个类都有一个隐含的静态成员变量class
+		 Class c1=Foo.class; 
+	     第二种表达方式--->已经知道该类的对象通过getClassF方法
+		 Class c2=foo1.getClass();
+	     官网c1,c2表示了Foo类的类类型（class type），万事万物皆对象，类也是对象，是Class类的实例对象
+	     这个对象我们称为该类的类类型
+	     不管c1 or c2都代表了Foo类的类类型，一个类只可能是Class类的一个实例对象
+	     第三种表达方式
+		 Class c3=null;
+		 c3=Class.forName("com.imooc.reflect.Foo");
+	     我们完全可以通过类的类类型创建类的对象实例--->通过c1 or c2 or c3创建Foo的实例对象
+		 Foo foo=(Foo)c1.newInstance();//需要有无参数的构造方法
+		 
+-------------------------------------------二进制基础------------------------------------------
+位运算的特殊用法：
+   1、清零。如果想将一个单元清零，即使其全部二进制位为0，只要与一个各位都为零的数值相与，结果为零。
+   2、取一个数中指定位。找一个数，对应X要取的位，概述的对应位为1，其余位为零，此数与X进行“与运算”可以得到X中的指定位。
+或运算的特殊用法：
+   1、常用来对一个数据的某些位置1.找到一个数，对应V要置1的位，该数的对应位为1，其余为零，此数与X相或可使X中的某些位置1.
+异或运算的特殊用法：
+   1、使特定位翻转。找一个数，对应X要翻转的各位，该数的对应位为1，其余位为零，此数与X对应位异或即可。
+   2、与0相异或，保留原值。
+   3、两个变量交换值的方法。利用异或运算本身等于0和异或运算符合交换率。如：A=A^B;B=A^B;A=A^B;
+  
+十进制转成十六进制  Integer.toHexString(int i)
+十进制转成八进制    Integer.toOctalString(int i)
+十进制转成二进制    Integer.toBinaryString（int i）
+十六进制转成十进制  Integer.valueOf("FFFF",16).toString()   
+八进制转成十进制    Integer.valueOf（"376",8）.toString()
+二进制转成十进制    Integer.valueOf("0101",2).toString()
+Integer.parseInt("数值", 进制数);
+--------------------------------------------文件传输基础——Java IO流-----------------------------------
+--- 编码问题
+	File类的使用
+	RandomAccessFile的使用
+	字节流的使用
+	字符流的使用
+	对象的序列化和反序列化
+	
+1、编码问题
+	String s =“ssss”
+	byte[] bytes = s.getBytes("gbk")//转换成字节序列，用的是默认编码GBK
+	Integer.toHexString(b & 0xff)//把字节转换成int，以16进制的方式
+	//gbk编码中文占用2字节，英文占用1字节
+	//utf-8编码中文占用3个字节，英文1个字节
+	//java是双字节编码 utf-16be，中文占用2个字节，英文也是2个字节
+	当你的字节序列是某种编码时，这个时候把字节序列变成字符串，也需要用这种编码方式，否则乱码
+	String s1 =new String(bytes,"gbk")
+	
+	文本文件，就是字节序列，可以是任意编码的字节序列
+	如果在中文机器上直接创建文本文件，该文本文件只认识ansi，中文系统下，ANSI编码代表GBK编码
+	联通、联是巧合，刚好符合utf-8编码的规则
+2、File类的使用
+---常用API介绍
+	java.io.File类用于表示文件(目录)
+	File类只用于表示文件(目录)的信息(名称、大小等)，不能用于文件内容的访问
+	如：File file = new File();file.方法()。。。
+----遍历目录
+	File的一些常用操作：过滤、遍历等。
+	遍历：(dir为传入的文件(目录))
+	File[] files = dir.listFiles();
+		if (files!=null&&files.length>0)
+		{
+			for (File file : files) {
+				if(file.isDirectory()){
+					fileDir(file);
+				}else{
+					System.out.println(file);
+				}
+			}
+		}
+3、	RandomAccessFile的使用
+	java提供的对文件内容的访问，既可以读文件，也可以写文件
+	支持随机访问文件，可以访问文件的任意位置。
+	
+	（1）java文件模型：
+		在硬盘上的文件是byte byte byte存储的，是数据的集合
+	（2）打开文件
+		有两种模式“rw”(读写)，“r”(只读)
+		RandomAccessFile raf = new RandomAccessFile(file,"rw")
+		文件指针，打开文件时指针在开头 pointer = 0
+	（3）写方法
+		raf.write(int)--->只写一个字节（后八位），同时指针指向下一个位置，准备下次写入
+	（4）读方法
+		int b = raf.read()--->读一个字节
+	（5）文件读写完成后一定要关闭
+4、IO流(输入流、输出流)
+	字节流、字符流
+	1、字节流
+		1)InputStream、OutputStream
+			InputStream抽象了应用程序读取数据的方式
+		2)EOF = End 读到-1就读到结尾
+		3)输入流基本方法
+			int b = in.read();读取一个字节无符号填充到int低八位，-1是EOF
+			in.read(byte[] buf)读取数据填充到字节数组buf
+			in.read(byte[] buf,int start,int size)
+		4)输出流基本方法
+			out.write(int b) 只写出一个byte到流，b的低8位
+			out.write(byte[] buf)将buf字节数组都写到流
+			
+		文件输入输出流
+		5)FileInputStream--->具体实现了在文件上读取数据
+			单字节读取不适合读入大的文件，效率低，用批量读取。文件小，用单字节读取比较快
+			单字节：int b = in.read()
+			批量读取：byte[] buf = new byte[8 * 1024]
+					  int b = in.read(buf,0,buf.length)
+					  while(b!=-1){for(int i = 0;i<b;i++) 输出buf[i]}
+		累积知识：long start = System.currentTimeMillis();
+				  long end = System.currentTimeMillis();
+				  中间有程序，end-start就是程序运行时间。
+		6)FileOutputStream---->实现了向文件中写出byte数据的方法
+			FileOutputStream out = new FileOutputStream(String,true):有true，追加，没有，删除并创建
+			单个写入：out.write()
+				中文：byte[] gbk = "中国".getBytes("gbk");
+				out.write(gbk)
+			批量写入：byte[] buf = new byte[]；输入数据
+					  out.write(buf,0,长度);最好加上 out.flush()
+					  
+		数据输入输出流
+		7)DateOutputStream/DateInputStream 
+		  对“流”功能的扩展，可以更加方便的读取int,long,字符等类型数据
+		  DataOutputStream out = new DataOutputStream(new FileOutputStream(file));
+		  DateOutputStream
+			writeInt()/writeDouble()/writeUTF()
+			//采用UTF8
+			out.writeUTF("中国");
+			//采用UTF-16be
+			out.writeChars("你好");
+		   DataInputStream
+			 类似。
+			 
+		字节缓冲流
+		8)BufferedInputStream & BufferedOutputStream
+			为IO提供了带缓冲区的操作，一般打开文件进行写入
+			或读取操作室，都会加上缓冲，提高了IO的性能
+			从应用程序中把输入放入文件，相当于将一缸水倒入到另一个缸中:
+			 FileOutputStream--->write()方法相当于一滴一滴地把水“转移”过去
+			 DataOutputStream-->writeXxx()方法会方便一些，相当于一瓢一瓢把水“转移”过去
+			 BufferedOutputStream--->write方法更方便，相当于一飘一瓢先放入桶中，再从桶中倒入到另一个缸中，性能提高了
+			bos.write(c);bos.flush()。一定要刷新缓存
+
+5、字符流
+		1)编码问题
+		2)认识文本和文本文件
+		java的文本(char)是16位无符号的整数，是字符的Unicode编码（双字节编码）
+		文件是byte,byte,byte的数据序列
+		文本文件是文本（char）序列按照某种编码方案（utf-8,utf-16be,gbk）序列化为byte的储存序列
+		3)字符流（Reader Writer）------->操作的是文本文件
+		字符的处理，一次处理一个字符，字符的底层，仍然是基本的字节序列
+		字符流的基本实现
+		InputStreamReader完成byte流解析为char流，按照编码解析,默认GBK
+		OutputStreamWriter提供char流到byte流，按照编码处理
+		4)FileReader和FileWriter的使用
+			FileWriter fw=new FileWriter(filename2)//覆盖
+			FileWriter fw=new FileWriter(filename2,true)//追加
+			FileReader和FileWriter可以用于对文本文件进行读写，但是遇到与项目的默认编码不同的编码时无法进行指定编码的读写，
+			会出现乱码，这时就无法使用这两个流对文件进行读写，必须使用InputStreamReader和OutputStreamWriter来对文件进行操作。
+		字符流的过滤器:
+			 BufferedReader --->readLine 一次读一行，无法识别换行
+			 BufferedWriter/PrintWriter ---> 写一行，没有换行，要单独写出换行：.newLine();
+			 PrintWriter,换行用.println();
+
+6、对象的序列化和反序列化
+		1).对象序列化，就是将Object转换成byte序列，反之叫对象的反序列化
+		2).序列化流（OjectOutputStream）是过滤流----writeObject
+		   反序列化流(ObjectInputStream)----readObject
+		3).序列化接口（Serializable）
+		对象必须实现序列化接口，才能进行序列化，否则将出现异常
+		这个借口，没有任何方法，只是一个标准
+		String file = "F:/IO流/序列化/test.txt";
+		// 1.对象的序列化
+		/*ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(
+				file));
+			Student stu = new Student("10011", "张三 ", 20);
+			oos.writeObject(stu);
+			oos.flush();
+			oos.close();*/
+
+		// 2.反序列化
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+			Student stu2 = (Student) ois.readObject();
+			System.out.println(stu2);
+			ois.close();
+
+		}
+		4)序列化：
+			transient 关键字：被transient修饰的元素，该元素不会进行jvm默认的序列化，但可以自己完成这个元素的序列化
+			注意：
+			（1）在以后的网络编程中，如果有某些元素不需要传输，那就可以用transient修饰，来节省流量;对有效元素序列化，提高性能。
+			（2）可以使用writeObject自己完成这个元素的序列化。ArrayList就是用了此方法进行了优化操作。ArrayList最核心的容器Object[] elementData使用了transient修饰，但是在writeObject自己实现对elementData数组的序列化。只对数组中有效元素进行序列化。readObject与之类似。
+			（3）
+			private void writeObject(java.io.ObjectOutputStream s)throws java.io.IOException{
+				s.defaultReadObject()// 把jvm能默认序列化的元素进行序列化操作;
+				s.writeObject();// 自己完成序列化
+			}
+					java.io.ObjectOutputStream.defaultWriteObject();
+					// 把jvm能默认序列化的元素进行序列化操作
+					java.io.ObjectOutputStream.writeInt(age);// 自己完成序列化
+			（4）
+			private void readObject(java.io.ObjectInputStream s)throws java.io.IOException{
+				s.defaultReadObject();// 把jvm能默认反序列化的元素进行反序列化
+				s.readObject();// 自己完成age的反序列化操作
+			}
+					java.io.ObjectOutputStream.defaultReadObject();// 把jvm能默认反序列化的元素进行反序列化
+					this.age = java.io.ObjectOutputStream.readInt(); // 自己完成age的反序列化操作
+		5) 序列化中子父类构造函数问题
+			一个类要序列化，就要实现Serializable接口，反过来说，不实现Serializable就不能序列化
+			当父类没实现Serializable接口，子类继承父类并实现Serializable接口，子类序列化时，父类的部分是没有被序列化的，
+			那么对子类进行反序列化，若父类没有实现序列化接口，那么会显式调用父类构造函数
+----------------------------------------Socket编程----------------------------------------------------------
+1、网络基础知识
+2、InetAddress类
+3、URL
+4、TCP编程
+5、UDP编程
+	
+	2、InetAddress类
+		InetAddress类用于标识网络上的硬件资源，表示互联网协议(IP)地址。
+		InetAddress类未提供构造，可以通过该类的一些静态方法获得InetAddress类的实例。
+		1).InetAddress类没有构造方法，所以不能直接new出一个对象；
+			可以通过InetAddress类的静态方法获得InetAddress的对象；
+			InetAddress.getLocalHost();
+			InetAddress.getByName("");
+		2).类主要方法：
+			String - address.getHostName();
+			String - address.getHostAddress();
+			public static InetAddress getByName(String host) throws UnknownHostException
+			在给定主机名的情况下确定主机的 IP 地址。
+			主机名可以是机器名（如 "java.sun.com"），也可以是其 IP 地址的文本表示形式(网址)
+		2)、URL由两部分组成：协议名称和资源名称，中间用冒号隔开
+		3)、在java.net包中，提供了URL类表示URL
+		
+				url：统一资源定位符：表示internet上的网络资源<br>
+				协议+资源名称
+				url常用方法：
+				存在java.net包中，提供创建url/子url，获取url等方法<br>
+				第一步：创建实例<br>
+				URL imooc=new URL（"http：//www.imooc.com"）；<br>
+				//在原有url下再创建url<br>
+				URL url=new URL（imooc,"/index.html?username=tom#test"）<br>
+				//获取url的信息<br>
+				url.getProtocol();//获取协议http<br>
+				url.getHost();//获取主机www.imooc.com<br>
+				url.getPort();//获取端口号:-1<br>
+				url.getPath();//获取文件路径/index.html<br>
+				url.getFile();//获取文件名/index.html?username=tom<br>
+				url.getRef()；//获取相对路径test<br>
+				url.getQuery();//查询字符串username=tom<br>
+				注：创建url时没有指定端口号则getPort方法返回-1，协议不同会使用默认端口
+			
+			使用URL读取网页内容：
+			1、通过URL对象的openStream()方法，可以得到指定资源的输入流
+			2、通过输入流可以读取、访问网络上的数据。
+				URL url=new URL（"http://www.baidu.com"）;<br>
+				//获取输入流通过openStream方法<br>
+				InputStream is=url.openStream()；<br>
+				//转化成字符输入流<br>
+				InputStream isr=new InputStreamReader(is);<br>
+				//加缓冲提高读取效率<br>
+				BufferedReader br=new BufferedReader();<br>
+				String date=br.teadline();
+				while(date.next()){System.out.print(date);
+				date=br.readLine();
+				}
+				完成后要关闭资源相关资源：br，isr字符输入流，is字节输入流
+				注：如果输出是乱码则要在is字节输入流中规定编码为
+				InputStream isr=new InputStreamReader(is，"utf8");<br>
+	3、通过 Socket 实现 TCP 编程
+		服务器端的ServerSocket类
+			ServerSocket serverScoket = new ServerSocket(8888);
+			Socket socket = serverScoket.accept();
+			OutputStream os = socket.getOutputStream();
+			PrintWriter pw = new PrintWriter(os);
+			pw.print("你好啊111");
+			pw.flush();
+			socket.shutdownOutput();
+			InputStream is=socket.getInputStream();
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader br = new BufferedReader(isr);
+			String ss ;
+			while((ss=br.readLine())!=null)
+			{
+				System.out.println("服务器端说:"+ss);
+			}
+			socket.shutdownInput();
+		客户端的Socket类
+			Socket socket = new Socket("localhost",8888);
+			OutputStream os = socket.getOutputStream();
+			。。。类似
+	4、多线程
+		Strat（） 线程启动的开关
+		Run（）   线程主体 执行的业务  需要重写
+		在服务器端实现
+		ServerSocket serverScoket = new ServerSocket(8888);
+		Socket socket =null;
+			while(true){
+				socket = serverScoket.accept();
+				socketThread sth = new socketThread(socket) ;
+				sth.start();
+			}
+		其中，socketThread 是自己写的类，extends Thread
+			Socket socket =null;
+			public socketThread(Socket socket) {
+				this.socket = socket;
+			}
+			然后要重写run()方法。
+总结：
+	1)多线程的优先级，用thread.setPriority(4),范围为[1,10]，默认为5，
+		未设置优先级可能会导致运行时速度非常慢，可降低优先级
+	2）是否关闭输入输出流：对于同一个socket，直接关闭socket即可；
+	3）使用TCP传输对象，用到上一部分讲到的ObjectOutputStream oos= new ObjectOutputStream(socket.getOutputStream)
+		oos,writeObject(object).
+	4）socket变成传递文件，用输入输出流等等。
+-----------------------------------------JDBC------------------------------------------------------
+JDBC编程步骤：
+1.加载驱动程序：Class.forName(driverClass)
+  加载Mysql驱动：Class.forName("com.mysql.jdbc.Driver");
+  加载Oracle驱动：Class.forName("oracle.jdbc.driver.OracleDriver")
+2.获得数据库连接：
+  Connection conn = null;
+  conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/imooc","root","root");
+3.创建Statement对象：conn.createStatement(); ---- 可执行sql语句
+4.ResultSet rs = stmt.executeQuery("sql语句");--->rs.getString("user_name")+","+rs.getInt("age")等等
+
+累积：
+		用JDBC插入数据库信息记录乱码问题解决方案：
+		1.要保证你的项目编码是utf-8；
+		2.连接数据库的url时要指定字符编码如：private static final String URL="jdbc:mysql://127.0.0.1:3306/pwq?useUnicode=true&amp;characterEncoding=utf-8";
+		3.还有你新建的数据库也要指定为utf-8编码。

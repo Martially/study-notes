@@ -1,0 +1,328 @@
+Servlet笔记
+-------------------------------------Servlet基础--------------------------------------------
+	JSP的前身是Servlet
+	Servlet是在服务器上运行的小程序。
+	一个Servlet就是一个Java类，并且可以通过“请求-响应”编程模型来访问的这个驻留在服务器内存里的Servlet程序
+Tomcat容器等级
+	Tomcat的容器分为四个等级，servlet的容器管理Context容器，一个Context对应一个web工程
+
+----编写第一个Servlet
+手写：
+	1.继承HttpServlet
+	2.重写doGet()或者doPost()
+	3.在web.xml中注册Servlet
+	----详细步骤：
+		在web dynamic project的src下创建Servlet类,如HelloServlet.java（实质是java类，继承HttpServlet抽象类，重写doGet与doPost（）方法），然后在web.xml注册Servlet,主要是两个标签<servlet></servlet>标签与
+		----注意get和post的区别。
+		<servlet-mapping></servlet-mapping>标签
+		格式：
+		<Servlet>
+			<Servlet-name>定义Servlet的名字<Servlet-name>
+			<Servlet-class>Servlet的全类名，即包名.HelloServlet</Servlet-class>
+		<Servlet>
+		<Servlet-mapping>
+			<Servlet-name>在Servlet标签定义好的Servlet的名字</Servlet-name>
+			<url-patern>HelloServlet.java的虚拟路径</url-patern>（与超链接的路径一致，要用/，如/servlet/HelloServlet）
+		</Servlet-mapping>
+		****************特别注意*************&*
+		1、在超级链接是Get请求指向Servlet或表单提交数据给Servlet处理时不同于3P(JSP,ASP,PHP)，是不能带文件后缀.java的，否则会报错，这点需要特别注意
+		2、如果输出的是用标签的，
+		如:PrintWriter out=response.getWriter();加：response.setContentType("text/html;charset=utf-8");
+			out.println("<strong>Hello</storng>");
+用MyEclipse：
+	1.src->new->Servlet
+	2.重写doGet()或者doPost()
+	3.部署运行
+
+----Servlet执行流程和生命周期
+	----Servlet请求顺序
+		1.在web.xml的servlet-mapping标签中匹配servlet的地址，找到与之相对应的servlet名称。
+		2.通过servlet名称在servlet标签中找到相对应的包中的类
+		3.再判断采用的是doget方法还是dopost方法，执行方法内的代码。
+	----Servlet生命周期。
+			第一阶段：初始化阶段，调用init()方法。
+			第二阶段：响应客户请求阶段，调用service（Servlet req,Servlet resp）方法，由service()方法根据提交方式选择执行doGet()或者doPost()方法。
+			第三阶段：终止阶段，调用destroy()方法。
+	注意：编写Servlet的doPost方法时，需要抛出ServletExcpetion和IOException异常。
+
+Tomcat装载Servlet的三种情况：
+	1.在Servlet容器启动后，用户首次向Servlet发送请求
+	2.自动装载在配置文件中注册的servlet，即使没有请求也会被装载
+		<loadon-startup>2</loadon-startup>
+		注意优先级，数字越小优先级越高
+	3.servlet类文件被更新后也会重新装载Servlet
+	----Servlet 生命周期：Servlet 加载--->实例化--->服务--->销毁。
+			1 init（）：在Servlet的生命周期中，仅执行一次init()方法。它是在服务器装入Servlet时执行的，负责初始化Servlet对象。可以配置服务器，以在启动服务器或客户机首次访问Servlet时装入Servlet。无论有多少客户机访问Servlet，都不会重复执行init（）。
+			2 service（）：它是Servlet的核心，负责响应客户的请求。每当一个客户请求一个HttpServlet对象，该对象的Service()方法就要调用，而且传递给这个方法一个“请求”（ServletRequest）对象和一个“响应”（ServletResponse）对象作为参数。在HttpServlet中已存在Service()方法。默认的服务功能是调用与HTTP请求的方法相应的do功能。
+			3 destroy（）： 仅执行一次，在服务器端停止且卸载Servlet时执行该方法。当Servlet对象退出生命周期时，负责释放占用的资源。一个Servlet在运行service()方法时可能会产生其他的线程，因此需要确认在调用destroy()方法时，这些线程已经终止或完成。
+
+Servlet与JSP内置对象的对应关系：
+	Jsp内置对象out与servlet中response.getWriter()获得对象并不完全匹配，Jsp中是JspWriter类型，而servlet中获得是PrintWriter类型，其实一个是在Jsp中输出，一个是在servlet中输出，类型肯定不一样；
+	request、response内置对象可以通过service（）方法传到doGet（）、doPost（）里的request、response来获取；
+	session可以通过request.getSession()来获取；
+	application可以通过getServletContext()来获取；
+	exception可以通过Throwable 来获得；
+	page对应this对象；
+	pageContext对象对应PageContext对象；
+	config可以通过getServletConfig()来获取。
+	
+Servlet获取表单数据:
+	通过Servlet获取表单数据 :
+		1.建立JavaBean类 ;
+		2.在Servlet类中的 doPost方法内编写代码; 
+		3.创建 JavaBean 对象, 通过 getParameter(String param);获取表单值 ;
+			注意:checkbox控件要用getparameterValues();来获取参数值。boolean类型的值不要用is作为变量名的开始
+			通过 getParameterValue(String param) 获取多个同name的表单值;
+		4.将数据保存到 session 中;---->request.getSession().setAttribute("regUser",u);
+		5.进行页面跳转;
+		6.jsp页面中创建Servlet对象，通过<jsp:getProperty />或对象的get()方法获取值
+	注意事项: 
+		1.在 jsp 页面中可以使用<% %> 写 java 代码;
+		2.日期转换时需要注意格式 '-';
+		3.复选框需要使用 getParameterValue 方式获取;
+		4.注意复选框是否为 null ;
+		5.注意javaBean属性名不与表单属性名冲突!
+Servlet路径跳转
+		1、相对路径,如href="servlet/TestServlet" 
+			注意：如果写成"/servlet/TestServlet"会报错，因为第一个'/'表示的是【服务器根目录：http://localhost:8080/】
+		2、绝对路径，通过内置成员变量path实现，如href="<%=path%>/servlet/TestServlet"。
+			注意：这里的path得到的是项目根目录，如【http://localhost:8080/Servlet002_GetFormDemo】
+					path=request.getContextPath();
+			表单中action的URL地址写法，与超链接方式完全相同。
+	二、Servlet跳转JSP
+		1、请求重定向：response.sendRedirect(request.getContextPath()+"/xxx.jsp");
+			这里通过request.getContextPath()方法获得项目根目录，或者通过"../xxx.jsp"取得上层路径得到
+		2、服务器内部转发：request.getRequestDispatcher("../xxx.jsp").forward(req,resp);
+		***小结：都可以通过../xxx.jsp得到
+-------------------------------------------Servlet高级------------------------------------------------
+1.获取初始化参数
+2.MVC设计模式
+3.Model2简介
+4.阶段项目
+
+	----1.获取Servlet的初始化参数
+			1.在web.xml中配置Servlet时，可以配置一些初始化参数，方法如下
+				<servlet>
+					<init-param>
+						<param-name>password</param-name>
+						<param-value>12345</param-vlaue>
+					</init-param>
+					<init-param>
+						<param-name>username</param-name>
+						<param-value>admin</param-vlaue>
+					</init-param>
+				</servlet>
+			2.在sevlet中可以通过servletConfig接口提供的方法getInitparameter()来获取这些参数
+				其中在类里面，要先申明两个变量，并且写好get，set函数
+				this.getInitparameter("username");
+				this.getInitparameter("password");
+	----2.MVC设计模式
+				你懂得
+	----3.Model2简介
+		Jsp+servlet+JavaBean
+	----4.
+		----购物车类设计：
+			//购物车类
+			public class Cart {
+
+				//购买商品的集合
+				private HashMap<Items,Integer> goods;
+				
+				//购物车的总金额
+				private double totalPrice;
+
+				//构造方法（此处省略，在编写时补上）
+				
+				//创建属性的get()和set()方法（此处省略，在编写时补上）
+				
+				//添加商品进购物车的方法
+				public boolean addGoodsInCart(Items item ,int number)
+				{
+					if(goods.containsKey(item))
+					{
+						goods.put(item, goods.get(item)+number);
+					}
+					else
+					{
+						goods.put(item, number);	
+					}
+					calTotalPrice(); //重新计算购物车的总金额
+					return true;
+				}
+				
+				//删除商品的方法
+				public boolean removeGoodsFromCart(Items item)
+				{
+					goods.remove(item);
+					calTotalPrice(); //重新计算购物车的总金额
+					return true;
+				}
+				
+				//统计购物车的总金额
+				public double calTotalPrice()
+				{
+					double sum = 0.0;
+							//【1.Set集合不能用for循环遍历，迭代器Iterator最好加泛型，利用迭代器遍历取值】
+					Set<Items> keys = goods.keySet(); //获得键的集合
+					Iterator<Items> it = keys.iterator(); //获得迭代器对象
+					while(it.hasNext())
+					{
+						Items i = it.next();
+						sum += i.getPrice()* goods.get(i);
+					}
+					this.setTotalPrice(sum); //设置购物车的总金额
+					return this.getTotalPrice();
+				}
+			}
+		----不重复添加商品：
+			在商品的Items类中，重写hashCode()和equals()方法
+			编写Servlet类
+			@CartServlet.java
+			public CartServlet{
+			//重写doPost
+			public void doPost(){
+			//判断购物动作，增加，显示，删除
+			1.得到数据
+			2.进而通过itemDao连接数据库得到goods对象
+			2.逻辑处理（添加购物车列表，传递值给session）
+			3.页面跳转
+			}
+
+			//增加商品逻辑处理
+			private boolean addToCart(){
+			1.得到购物车类型数据
+			3.判断是不是第一次给购物车添加商品 
+			4.给购物类列表添加商品
+			5.传递值给session
+			}
+			}
+			//添加商品进购物车的方法
+				private boolean addToCart(HttpServletRequest request, HttpServletResponse response)
+				{
+					String id = request.getParameter("id");
+					String number = request.getParameter("num");
+					Items item = idao.getItemsById(Integer.parseInt(id));
+					
+					//是否是第一次给购物车添加商品，需要给session中创建一个新的购物车对象
+					if(request.getSession().getAttribute("cart")==null)
+					{
+						Cart cart = new Cart();
+						request.getSession().setAttribute("cart",cart);
+					}
+					Cart cart = (Cart)request.getSession().getAttribute("cart");
+					if(cart.addGoodsInCart(item, Integer.parseInt(number)))
+					{
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+					
+				}
+		----显示购物车
+			@1.CartServlet.java
+            public void doPost(){
+				response.setContentType("text/html;charset=utf-8");
+				if(request.getParameter("action")!=null)
+				{
+					this.action = request.getParameter("action");
+					if(action.equals("show"))//如果是显示购物车
+					{
+						request.getRequestDispatcher("/cart.jsp").forward(request, response);
+					}
+				}
+				
+			}	
+			@2.cart.jsp
+			 <% 
+			  //首先判断session中是否有购物车对象
+			   if(request.getSession().getAttribute("cart")!=null)
+			   {	%>
+			<!-- 循环的开始 -->
+			 <% 
+			  Cart cart = (Cart)request.getSession().getAttribute("cart");
+			  HashMap<Items,Integer> goods = cart.getGoods();
+			  Set<Items> items = goods.keySet();
+			 Iterator<Items> it = items.iterator();
+									 
+			 while(it.hasNext())
+			 {
+			  Items i = it.next();
+			  %> 
+			<tr name="products" id="product_id_1">
+			<td class="thumb"><img src="images/<%=i.getPicture()%>" /><a href=""><%=i.getName()%></a></td>
+			<td class="number"><%=i.getPrice() %></td>
+			<td class="price" id="price_id_1">
+			<span><%=i.getPrice()*goods.get(i) %></span>
+			<input type="hidden" value="" />
+				</td>
+				<td class="number">
+			<%=goods.get(i)%>					
+				</td>                        
+				</tr>
+			  <%   } %>
+			 <div class="total"><span id="total">总计：<%=cart.getTotalPrice() %>￥</span></div>
+			 <% } %>
+			@3.details.jsp
+			  购买数量：<span id="sub" onclick="sub();">-</span><input type="text" id="number" name="number" value="1" size="2"/><span id="add" onclick="add();">+</span>
+			 <script type="text/javascript">
+				  function add()
+				  {
+					 var num = parseInt(document.getElementById("number").value);
+					 if(num<100)
+					 {
+						document.getElementById("number").value = ++num;
+					 }
+				  }
+				  function sub()
+				  {
+					 var num = parseInt(document.getElementById("number").value);
+					 if(num>1)
+					 {
+						document.getElementById("number").value = --num;
+					 }
+				  }
+			</script>
+		----商品删除
+			显示购物车
+			@1.CartServlet.java
+			public void doPost(){
+				if(action.equals("delete")) //如果是执行删除购物车中的商品
+				{
+					if(deleteFromCart(request,response))
+					{
+						request.getRequestDispatcher("/cart.jsp").forward(request, response);
+					}
+					else
+					{
+						request.getRequestDispatcher("/cart.jsp").forward(request, response);
+					}
+				}
+			}
+			//从购物车中删除商品
+			private boolean deleteFromCart()
+			{
+				String id = request.getParameter("id");
+				Cart cart = (Cart)request.getSession().getAttribute("cart");
+				Items item = idao.getItemsById(Integer.parseInt(id));
+				if(cart.removeGoodsFromCart(item))
+				{
+				return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			@2.cart.jsp
+			 <a href="servlet/CartServlet?action=delete&id=<%=i.getId()%>" onclick="delcfm();">删除</a>
+
+			 <script language="javascript">
+					function delcfm() {
+						if (!confirm("确认要删除？")) {
+							window.event.returnValue = false;
+						}
+					}
+			 </script>
